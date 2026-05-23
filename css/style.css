@@ -1,0 +1,83 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #fdf0e8; overflow: hidden; font-family: 'Courier New', monospace; }
+canvas { display: block; }
+
+#ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+#menu,
+#win,
+#gameover,
+#levelcard {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(253, 240, 230, 0.95); pointer-events: all;
+}
+
+#menu h1 {
+  font-size: 36px; color: #c47a3a; letter-spacing: 3px;
+  text-transform: uppercase; margin-bottom: 2px; text-shadow: 3px 3px 0 #f0c8a0;
+}
+#menu .sub { color: #b07050; font-size: 11px; letter-spacing: 2px; margin-bottom: 16px; }
+
+#level-grid { display: grid; grid-template-columns: repeat(5, 64px); gap: 10px; margin: 10px 0 18px; }
+
+.lvl-btn {
+  width: 64px; height: 64px; border: none; border-radius: 10px; cursor: pointer;
+  font-family: 'Courier New', monospace; font-size: 13px; font-weight: bold;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; transition: transform 0.1s;
+}
+.lvl-btn:hover:not(.locked) { transform: scale(1.08); }
+.lvl-btn.unlocked            { background: #f5e0c0; color: #7a4a10; border: 2px solid #e0b080; }
+.lvl-btn.unlocked.done       { background: #d4f0c0; color: #3a6a10; border: 2px solid #90c860; }
+.lvl-btn.locked              { background: #e8e0d8; color: #b0a090; border: 2px solid #d0c8b8; cursor: default; }
+.lvl-btn .lnum               { font-size: 18px; font-weight: bold; }
+.lvl-btn .lstar              { font-size: 10px; letter-spacing: 1px; }
+
+.ctrl-box {
+  background: rgba(255, 220, 180, 0.35); border: 1.5px solid #e8b080;
+  padding: 10px 24px; margin: 6px 0; color: #7a4a20; font-size: 11px;
+  line-height: 2; letter-spacing: 1px; border-radius: 8px;
+}
+.ctrl-box b { color: #c47a3a; }
+
+button.main-btn {
+  margin-top: 0; padding: 9px 28px; font-size: 13px; background: #e8a060;
+  color: #fff; border: none; cursor: pointer; font-weight: bold;
+  font-family: 'Courier New', monospace; letter-spacing: 2px;
+  text-transform: uppercase; border-radius: 8px;
+}
+button.main-btn:hover { background: #d08040; }
+
+button.sec-btn {
+  margin-top: 8px; padding: 8px 24px; font-size: 12px; background: #c8b090;
+  color: #fff; border: none; cursor: pointer; font-weight: bold;
+  font-family: 'Courier New', monospace; letter-spacing: 1px;
+  text-transform: uppercase; border-radius: 8px;
+}
+button.sec-btn:hover { background: #b09070; }
+
+#win h2,
+#gameover h2  { font-size: 34px; color: #c47a3a; text-shadow: 3px 3px 0 #f0c8a0; letter-spacing: 3px; }
+#win p,
+#gameover p   { color: #7a4a20; font-size: 13px; margin: 8px 0 14px; letter-spacing: 1px; text-align: center; }
+
+#levelcard h2 { font-size: 32px; color: #c47a3a; letter-spacing: 2px; text-shadow: 2px 2px 0 #f0c8a0; }
+#levelcard p  { color: #7a4a20; font-size: 12px; margin: 5px 0 16px; letter-spacing: 1px; }
+
+.difficulty { font-size: 20px; margin: 5px 0; letter-spacing: 3px; color: #c47a3a; }
+
+#hud {
+  position: absolute; top: 0; left: 0; width: 100%;
+  display: flex; justify-content: space-around; align-items: center;
+  padding: 6px 0; background: rgba(253, 240, 230, 0.92);
+  pointer-events: none; border-bottom: 2px solid #f0c8a0;
+}
+.hud-item {
+  color: #7a4a20; padding: 3px 10px; font-size: 11px; letter-spacing: 1px;
+  border: 1.5px solid #e8b080; border-radius: 6px; background: rgba(255, 255, 255, 0.5);
+}
+.lvc { color: #c47a3a; border-color: #e8a060; font-weight: bold; }
+.bgc { color: #a06030; border-color: #d8a060; }
+
+.btn-row { display: flex; gap: 10px; margin-top: 4px; }
