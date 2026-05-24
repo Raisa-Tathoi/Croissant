@@ -68,7 +68,7 @@ button.sec-btn:hover { background: #b09070; }
 .difficulty { font-size: 20px; margin: 5px 0; letter-spacing: 3px; color: #c47a3a; }
 
 #hud {
-  position: absolute; top: 0; left: 0; width: 100%;
+  position: absolute; top: 6px; left: 0; width: 100%;
   display: flex; justify-content: space-around; align-items: center;
   padding: 6px 0; background: rgba(253, 240, 230, 0.92);
   pointer-events: none; border-bottom: 2px solid #f0c8a0;
@@ -81,3 +81,53 @@ button.sec-btn:hover { background: #b09070; }
 .bgc { color: #a06030; border-color: #d8a060; }
 
 .btn-row { display: flex; gap: 10px; margin-top: 4px; }
+
+/* ── Progress bar ────────────────────────────────────────── */
+#progress-bar {
+  position: absolute; top: 0; left: 0; width: 100%; height: 6px;
+  background: rgba(200, 160, 100, 0.25); pointer-events: none; z-index: 2;
+}
+#progress-fill {
+  height: 100%; width: 0%; background: #e8a060; border-radius: 0 3px 3px 0;
+  transition: width 0.08s linear;
+}
+
+/* ── Mobile touch controls ───────────────────────────────── */
+#mobile-controls {
+  position: fixed; bottom: 0; left: 0; width: 100%; height: 100%;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 20px 24px; pointer-events: none;
+}
+
+.mob-btn {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(232, 160, 96, 0.45); border: 3px solid rgba(232, 160, 96, 0.7);
+  color: #fff; font-size: 30px; line-height: 1; cursor: pointer;
+  pointer-events: all; user-select: none; -webkit-user-select: none;
+  touch-action: manipulation; font-family: 'Courier New', monospace;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Responsive: small portrait screens ─────────────────── */
+@media (max-width: 480px) {
+  #menu h1    { font-size: 24px; }
+  #menu .sub  { font-size: 10px; }
+  #level-grid { grid-template-columns: repeat(5, 54px); gap: 8px; }
+  .lvl-btn    { width: 54px; height: 54px; }
+  .ctrl-box   { font-size: 10px; padding: 8px 14px; }
+}
+
+/* ── Responsive: landscape on phones ───────────────────── */
+@media (orientation: landscape) and (max-height: 500px) {
+  #menu, #win, #gameover, #levelcard {
+    overflow-y: auto; justify-content: flex-start; padding-top: 12px;
+  }
+  #menu h1    { font-size: 22px; margin-bottom: 0; }
+  #menu .sub  { font-size: 10px; margin-bottom: 8px; }
+  #level-grid { grid-template-columns: repeat(10, 48px); gap: 6px; margin: 6px 0 10px; }
+  .lvl-btn    { width: 48px; height: 48px; }
+  .ctrl-box   { font-size: 10px; padding: 6px 12px; margin: 4px 0; }
+  #win h2, #gameover h2 { font-size: 24px; }
+  .mob-btn    { width: 64px; height: 64px; font-size: 24px; }
+  #mobile-controls { padding: 10px 20px; }
+}

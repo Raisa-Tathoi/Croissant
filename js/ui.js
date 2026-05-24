@@ -1,74 +1,106 @@
-function buildLevelGrid() {
-  var grid = document.getElementById('level-grid');
-  grid.innerHTML = '';
-  for (var n = 1; n <= 10; n++) {
-    var btn      = document.createElement('button');
-    btn.className = 'lvl-btn';
-    var unlocked = n <= maxUnlocked;
-    var done     = levelStars[n - 1] > 0;
-
-    if (!unlocked) {
-      btn.className += ' locked';
-      btn.innerHTML  = '<span class="lnum">' + n + '</span><span class="lstar">🔒</span>';
-    } else if (done) {
-      btn.className += ' unlocked done';
-      var stars = '';
-      for (var s = 0; s < levelStars[n - 1]; s++) stars += '★';
-      for (var s = levelStars[n - 1]; s < 3; s++)  stars += '☆';
-      btn.innerHTML = '<span class="lnum">' + n + '</span><span class="lstar">' + stars + '</span>';
-      (function(num) { btn.onclick = function() { startLevel(num); }; })(n);
-    } else {
-      btn.className += ' unlocked';
-      btn.innerHTML  = '<span class="lnum">' + n + '</span><span class="lstar">— — —</span>';
-      (function(num) { btn.onclick = function() { startLevel(num); }; })(n);
+function buildStarDisplay(stars) {
+    var display = '';
+    for (var i = 0; i < stars; i++) {
+        display += '★';
     }
+    for (var i = stars; i < 3; i++) {
+        display += '☆';
+    }
+    return display;
+}
 
-    grid.appendChild(btn);
-  }
+function applyLockedStyle(button, levelNum) {
+    button.className += ' locked';
+    button.innerHTML = '<span class="lnum">' + levelNum + '</span><span class="lstar">...</span>';
+}
+
+function applyCompletedStyle(button, levelNum) {
+    button.className += ' unlocked done';
+    var starDisplay = buildStarDisplay(levelStars[levelNum - 1]);
+    button.innerHTML = '<span class="lnum">' + levelNum + '</span><span class="lstar">' + starDisplay + '</span>';
+    (function(num) {
+        button.onclick = function() { startLevel(num); };
+    }(levelNum));
+}
+
+function applyUnlockedStyle(button, levelNum) {
+    button.className += ' unlocked';
+    button.innerHTML = '<span class="lnum">' + levelNum + '</span><span class="lstar">— — —</span>';
+    (function(num) {
+        button.onclick = function() { startLevel(num); };
+    }(levelNum));
+}
+
+function buildLevelButton(levelNum) {
+    var button = document.createElement('button');
+    button.className = 'lvl-btn';
+    var isUnlocked = levelNum <= maxUnlocked;
+    var isCompleted = levelStars[levelNum - 1] > 0;
+    if (!isUnlocked) {
+        applyLockedStyle(button, levelNum);
+    } else if (isCompleted) {
+        applyCompletedStyle(button, levelNum);
+    } else {
+        applyUnlockedStyle(button, levelNum);
+    }
+    return button;
+}
+
+function buildLevelGrid() {
+    var grid = document.getElementById('level-grid');
+    grid.innerHTML = '';
+    for (var levelNum = 1; levelNum <= 10; levelNum++) {
+        grid.appendChild(buildLevelButton(levelNum));
+    }
 }
 
 function showMenu() {
-  gameRunning = false;
-  buildLevelGrid();
-  document.getElementById('menu').style.display      = 'flex';
-  document.getElementById('win').style.display       = 'none';
-  document.getElementById('gameover').style.display  = 'none';
-  document.getElementById('levelcard').style.display = 'none';
-  document.getElementById('hud').style.display       = 'none';
+    gameRunning = false;
+    buildLevelGrid();
+    document.getElementById('menu').style.display = 'flex';
+    document.getElementById('win').style.display = 'none';
+    document.getElementById('gameover').style.display = 'none';
+    document.getElementById('levelcard').style.display = 'none';
+    document.getElementById('hud').style.display = 'none';
+    document.getElementById('progress-bar').style.display = 'none';
+    document.getElementById('mobile-controls').style.display = 'none';
 }
 
-function startLevel(num) {
-  if (num > maxUnlocked) return;
-  pendingLevel = num;
-  var def = LEVEL_DEFS[num - 1];
-
-  document.getElementById('menu').style.display      = 'none';
-  document.getElementById('win').style.display       = 'none';
-  document.getElementById('gameover').style.display  = 'none';
-  document.getElementById('lc-title').textContent    = 'Level ' + num + ': ' + def.name;
-  document.getElementById('lc-desc').textContent     = def.desc;
-
-  var filled = Math.ceil(num / 2), diff = '';
-  for (var i = 0; i < filled; i++) diff += '▪';
-  for (var i = filled; i < 5; i++) diff += '▫';
-  document.getElementById('lc-diff').textContent     = diff;
-  document.getElementById('levelcard').style.display = 'flex';
+function startLevel(levelNum) {
+    if (levelNum > maxUnlocked) { return; }
+    pendingLevel = levelNum;
+    var levelDef = LEVEL_DEFS[levelNum - 1];
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('win').style.display = 'none';
+    document.getElementById('gameover').style.display = 'none';
+    document.getElementById('lc-title').textContent = 'Level ' + levelNum + ': ' + levelDef.name;
+    document.getElementById('lc-desc').textContent = levelDef.desc;
+    var dotsFilled = Math.ceil(levelNum / 2);
+    var difficultyText = '';
+    for (var i = 0; i < dotsFilled; i++) {
+        difficultyText += '▪';
+    }
+    for (var i = dotsFilled; i < 5; i++) {
+        difficultyText += '▫';
+    }
+    document.getElementById('lc-diff').textContent = difficultyText;
+    document.getElementById('levelcard').style.display = 'flex';
 }
 
 function beginLevel() {
-  var num = pendingLevel, def = LEVEL_DEFS[num - 1];
-  currentLevel = num;
-
-  document.getElementById('levelcard').style.display = 'none';
-  document.getElementById('hud').style.display       = 'flex';
-
-  level     = buildLevel(def);
-  player    = new Player(def);
-  gameOver  = false;
-  startTime = Date.now();
-  tick      = 0;
-  gameRunning = true;
-
-  if (animId) cancelAnimationFrame(animId);
-  gameLoop();
+    var levelNum = pendingLevel;
+    var levelDef = LEVEL_DEFS[levelNum - 1];
+    currentLevel = levelNum;
+    document.getElementById('levelcard').style.display = 'none';
+    document.getElementById('hud').style.display = 'flex';
+    document.getElementById('progress-bar').style.display = 'block';
+    document.getElementById('progress-fill').style.width = '0%';
+    if (isTouchDevice) { document.getElementById('mobile-controls').style.display = 'flex'; }
+    level = buildLevel(levelDef);
+    player = new Player(levelDef);
+    gameOver = false;
+    tick = 0;
+    gameRunning = true;
+    if (animationFrameId) { cancelAnimationFrame(animationFrameId); }
+    gameLoop();
 }

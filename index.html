@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Croissant Dash</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -10,13 +11,20 @@
 
   <div id="ui">
 
+    <!-- Mobile touch controls (shown during gameplay only) -->
+    <div id="mobile-controls" style="display:none">
+      <button id="btn-jump"  class="mob-btn">▲</button>
+      <button id="btn-right" class="mob-btn">▶</button>
+    </div>
+
     <!-- Main Menu -->
     <div id="menu">
       <h1>Croissant Dash</h1>
       <p class="sub">~ a cozy bakery racing game ~</p>
       <div id="level-grid"></div>
       <div class="ctrl-box">
-        <b>Move:</b> Arrow Left / Right &nbsp;|&nbsp; <b>Jump:</b> Arrow Up
+        <b>Move:</b> Arrow Left / Right &nbsp;|&nbsp; <b>Jump:</b> Arrow Up<br>
+        <b>Mobile:</b> Jump ▲ (bottom-left) &nbsp;|&nbsp; Run ▶ (bottom-right)
       </div>
     </div>
 
@@ -51,11 +59,13 @@
       </div>
     </div>
 
+    <!-- Progress bar (shown during gameplay) -->
+    <div id="progress-bar" style="display:none"><div id="progress-fill"></div></div>
+
     <!-- HUD (shown during gameplay) -->
     <div id="hud" style="display:none">
       <div class="hud-item lvc" id="h-level">Level 1</div>
       <div class="hud-item bgc" id="h-bags">Baguettes: 0</div>
-      <div class="hud-item"     id="h-timer">0.0s</div>
     </div>
 
   </div>
