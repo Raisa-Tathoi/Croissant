@@ -20,6 +20,22 @@ var levelStars = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var level, player, gameOver = false;
 var keys = {};
 
+function saveProgress() {
+    localStorage.setItem('maxUnlocked', maxUnlocked);
+    localStorage.setItem('levelStars', JSON.stringify(levelStars));
+}
+
+function loadProgress() {
+    var savedMax = localStorage.getItem('maxUnlocked');
+    var savedStars = localStorage.getItem('levelStars');
+    if (savedMax !== null) {
+        maxUnlocked = parseInt(savedMax, 10);
+    }
+    if (savedStars !== null) {
+        levelStars = JSON.parse(savedStars);
+    }
+}
+
 function updateHud() {
     document.getElementById('h-level').textContent = 'Level ' + currentLevel;
     document.getElementById('h-bags').textContent = 'Baguettes: ' + player.baguettes;
@@ -85,6 +101,7 @@ function onLevelComplete() {
         maxUnlocked = currentLevel + 1;
     }
 
+    saveProgress();
     var starDisplay = buildStarDisplay(stars);
     var levelNum = currentLevel;
     var collected = player.baguettes;
@@ -155,6 +172,7 @@ if (isTouchDevice) {
     }, { passive: false });
 }
 
+loadProgress();
 initStars();
 buildLevelGrid();
 ctx.fillStyle = '#fce8f0';
