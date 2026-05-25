@@ -99,6 +99,12 @@ button.sec-btn:hover { background: #b09070; }
   padding: 20px 24px; pointer-events: none;
 }
 
+.mob-btn-group {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
 .mob-btn {
   width: 80px; height: 80px; border-radius: 50%;
   background: rgba(232, 160, 96, 0.45); border: 3px solid rgba(232, 160, 96, 0.7);

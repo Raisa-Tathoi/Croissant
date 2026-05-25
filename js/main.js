@@ -167,6 +167,7 @@ function setupTouchBtn(buttonId, keyName) {
 }
 
 if (isTouchDevice) {
+    setupTouchBtn('btn-left', 'ArrowLeft');
     setupTouchBtn('btn-jump', 'ArrowUp');
     setupTouchBtn('btn-right', 'ArrowRight');
     canvas.addEventListener('touchstart', function(e) {
