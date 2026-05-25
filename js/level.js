@@ -64,7 +64,7 @@ function updatePlatforms() {
     for (var i = 0; i < level.plats.length; i++) {
         var platform = level.plats[i];
         if (!platform.vx) { continue; }
-        platform.x += platform.vx * platform.dir;
+        platform.x += platform.vx * platform.dir * deltaTime;
         if (platform.x > platform.maxX || platform.x < platform.minX) {
             platform.dir *= -1;
         }

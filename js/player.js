@@ -28,9 +28,9 @@ Player.prototype.computeDirection = function(levelDef) {
 
 Player.prototype.applyMovement = function(moveDir, levelDef) {
     if (this.iceSlideDuration > 0) {
-        this.velocityX += moveDir * 0.4;
-        this.velocityX *= 0.98;
-        this.iceSlideDuration--;
+        this.velocityX += moveDir * 0.4 * deltaTime;
+        this.velocityX *= Math.pow(0.98, deltaTime);
+        this.iceSlideDuration -= deltaTime;
     } else {
         this.velocityX = moveDir * levelDef.speed;
     }
@@ -45,14 +45,14 @@ Player.prototype.applyJump = function(levelDef) {
         this.jumpCooldown = 12;
         this.squishScale = 0.72;
     }
-    if (this.jumpCooldown > 0) { this.jumpCooldown--; }
+    if (this.jumpCooldown > 0) { this.jumpCooldown -= deltaTime; }
 };
 
 Player.prototype.applyPhysics = function() {
-    this.squishScale += (1 - this.squishScale) * 0.22;
-    this.velocityY = Math.min(this.velocityY + GRAVITY, 18);
-    this.x += this.velocityX;
-    this.y += this.velocityY;
+    this.squishScale += (1 - this.squishScale) * 0.22 * deltaTime;
+    this.velocityY = Math.min(this.velocityY + GRAVITY * deltaTime, 18);
+    this.x += this.velocityX * deltaTime;
+    this.y += this.velocityY * deltaTime;
     if (this.y > canvasHeight + 150) { this.dead = true; }
     if (this.x < 0) { this.x = 0; }
 };
@@ -65,7 +65,7 @@ Player.prototype.checkPlatforms = function(platforms, moveDir, levelDef) {
         var platform = platforms[i];
         var platTop = groundY + platform.y;
         var overlapsX = this.x + this.width > platform.x + 4 && this.x < platform.x + platform.w - 4;
-        var overlapsY = this.y + this.height > platTop && this.y + this.height < platTop + 32 && this.velocityY >= 0;
+        var overlapsY = this.y + this.height > platTop && this.y + this.height < platTop + 40 && this.velocityY >= 0;
         if (overlapsX && overlapsY) {
             this.y = platTop - this.height;
             this.velocityY = 0;
@@ -81,7 +81,7 @@ Player.prototype.checkPlatforms = function(platforms, moveDir, levelDef) {
 
 Player.prototype.updateWalkAnim = function() {
     if (Math.abs(this.velocityX) > 0.3 && this.onGround) {
-        this.walkTimer++;
+        this.walkTimer += deltaTime;
         if (this.walkTimer > 9) {
             this.walkFrame = (this.walkFrame + 1) % 4;
             this.walkTimer = 0;

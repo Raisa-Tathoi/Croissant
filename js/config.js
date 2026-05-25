@@ -3,7 +3,7 @@ var SAFE_DIST = 80; // minimum pixel gap between a baguette and a muffin
 
 var LEVEL_DEFS = [
   { num:1,  name:"Warm Up",       desc:"Easy breezy — collect baguettes!",      speed:3.8, jumpPow:13,   gap:60,  obsFreq:0,   movingPlats:false, wind:0,    iceSlide:false, narrow:false },
-  { num:2,  name:"Pick It Up",    desc:"A bit faster, a few more gaps.",         speed:4.2, jumpPow:13,   gap:80,  obsFreq:0.3, movingPlats:false, wind:0,    iceSlide:false, narrow:false },
+  { num:2,  name:"Dodge!",        desc:"Avoid the muffins!",                    speed:4.2, jumpPow:13,   gap:80,  obsFreq:0.3, movingPlats:false, wind:0,    iceSlide:false, narrow:false },
   { num:3,  name:"Muffin Maze",   desc:"Muffins are everywhere!",                speed:4.2, jumpPow:13,   gap:80,  obsFreq:0.6, movingPlats:false, wind:0,    iceSlide:false, narrow:false },
   { num:4,  name:"Leap of Faith", desc:"Wide gaps — time your jumps!",           speed:4.5, jumpPow:13.5, gap:110, obsFreq:0.4, movingPlats:false, wind:0,    iceSlide:false, narrow:false },
   { num:5,  name:"Shaky Ground",  desc:"Platforms are moving. Stay sharp!",      speed:4.5, jumpPow:13.5, gap:90,  obsFreq:0.4, movingPlats:true,  wind:0,    iceSlide:false, narrow:false },

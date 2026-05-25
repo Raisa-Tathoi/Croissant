@@ -142,7 +142,7 @@ function drawBaguettes(cameraX, groundY) {
         if (baguette.collected) { continue; }
         var screenX = baguette.x - cameraX;
         if (screenX < -40 || screenX > canvasWidth + 40) { continue; }
-        baguette.pulse++;
+        baguette.pulse += deltaTime;
         var bobOffset = Math.sin(baguette.pulse * 0.06) * 5;
         drawBaguette(screenX, groundY + baguette.y, bobOffset);
         ctx.strokeStyle = 'rgba(220,160,60,0.22)';

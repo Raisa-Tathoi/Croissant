@@ -101,6 +101,7 @@ function beginLevel() {
     gameOver = false;
     tick = 0;
     gameRunning = true;
+    lastTime = 0;
     if (animationFrameId) { cancelAnimationFrame(animationFrameId); }
-    gameLoop();
+    animationFrameId = requestAnimationFrame(gameLoop);
 }

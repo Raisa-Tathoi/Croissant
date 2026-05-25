@@ -19,6 +19,8 @@ var maxUnlocked = 1;
 var levelStars = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var level, player, gameOver = false;
 var keys = {};
+var lastTime = 0;
+var deltaTime = 1;
 
 function saveProgress() {
     localStorage.setItem('maxUnlocked', maxUnlocked);
@@ -43,9 +45,12 @@ function updateHud() {
     document.getElementById('progress-fill').style.width = levelProgress + '%';
 }
 
-function gameLoop() {
+function gameLoop(timestamp) {
     if (!gameRunning) { return; }
-    tick++;
+    if (lastTime === 0) { lastTime = timestamp; }
+    deltaTime = Math.min((timestamp - lastTime) / 16.667, 2.0);
+    lastTime = timestamp;
+    tick += deltaTime;
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     updatePlatforms();
