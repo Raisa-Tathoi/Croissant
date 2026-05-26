@@ -1,3 +1,5 @@
+var numPlats = 20
+
 function addPlatform(platforms, cursorX, platOffsetY, platWidth, levelDef) {
     var isMoving = levelDef.movingPlats && Math.random() < 0.55;
     var isIcy = levelDef.iceSlide && Math.random() < 0.45;
@@ -33,7 +35,7 @@ function addBaguettes(baguettes, cursorX, platOffsetY, platWidth, muffinX) {
 function buildMiddlePlatforms(levelDef) {
     var platforms = [], obstacles = [], baguettes = [];
     var cursorX = 380;
-    for (var i = 0; i < 28; i++) {
+    for (var i = 0; i < numPlats; i++) {
         cursorX += levelDef.gap + Math.random() * 40;
         var platWidth = levelDef.narrow ? 80 + Math.random() * 60 : 140 + Math.random() * 120;
         var platOffsetY = (Math.random() - 0.5) * 120;
